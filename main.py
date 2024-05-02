@@ -55,7 +55,7 @@ def paynow():
 
     # return a page with all the details
     htmlString = "<h1>Pay Now</h1><br>"
-    htmlString += "<p>Amount: ₹"+format(amount/100,".2f")+"</p>"
+    htmlString += "<p>Amount: ₹"+str(format(amount/100,".2f"))+"</p>"
     htmlString += "<p>Unique Transaction Id: "+unique_transcation_id+"</p>"
     htmlString += "<p>click to pay: <a href='"+pay_page_url+"'>"+pay_page_url+"</a></p>"
     htmlString += "<p> All the payments: <a href='"+base_url+"/redirect'>Payments</a></p>"
