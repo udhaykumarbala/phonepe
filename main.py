@@ -39,11 +39,11 @@ def paynow():
         amount = int(amount) * 100  # converting to paise
 
 
-    base_url = os.getenv("BASE_URL")
+    # base_url = os.getenv("BASE_URL")
 
     unique_transcation_id = str(uuid.uuid4())[:-2]
-    ui_redirect_url = "http://13.210.64.102/redirect"
-    s2s_callback_url = "http://13.210.64.102/callback"
+    ui_redirect_url = "https://utr-pay.susanoox.in/redirect"
+    s2s_callback_url = "https://utr-pay.susanoox.in/callback"
     id_assigned_to_user_by_merchant = "utr_id_1234"  
     pay_page_request = PgPayRequest.pay_page_pay_request_builder(merchant_transaction_id=unique_transcation_id,  
                                                                  amount=amount,  
@@ -53,13 +53,7 @@ def paynow():
     pay_page_response = phonepe_client.pay(pay_page_request)  
     pay_page_url = pay_page_response.data.instrument_response.redirect_info.url
 
-    # return a page with all the details
-    htmlString = "<h1>Pay Now</h1><br>"
-    htmlString += "<p>Amount: ₹"+str(format(amount/100,".2f"))+"</p>"
-    htmlString += "<p>Unique Transaction Id: "+unique_transcation_id+"</p>"
-    htmlString += "<p>click to pay: <a href='"+pay_page_url+"'>"+pay_page_url+"</a></p>"
-    htmlString += "<p> All the payments: <a href='"+base_url+"/redirect'>Payments</a></p>"
-    return htmlString
+    return jsonify({"pay_page_url": pay_page_url, "amount": amount, "unique_transcation_id": unique_transcation_id})
 
 
 @app.route('/callback', methods=['POST'])
