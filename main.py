@@ -42,8 +42,8 @@ def paynow():
     base_url = os.getenv("BASE_URL")
 
     unique_transcation_id = str(uuid.uuid4())[:-2]
-    ui_redirect_url = base_url + "/redirect"
-    s2s_callback_url = base_url + "/callback" 
+    ui_redirect_url = "http://13.210.64.102/redirect"
+    s2s_callback_url = "http://13.210.64.102/callback"
     id_assigned_to_user_by_merchant = "utr_id_1234"  
     pay_page_request = PgPayRequest.pay_page_pay_request_builder(merchant_transaction_id=unique_transcation_id,  
                                                                  amount=amount,  
