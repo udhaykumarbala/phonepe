@@ -36,7 +36,7 @@ def paynow():
     if amount is None:
         amount = 100  # 1 rupee, 100 paise  
     else:
-        amount = int(amount) * 100  # converting to paise
+        amount = int(amount) # amount should be in paise
 
 
     # base_url = os.getenv("BASE_URL")
