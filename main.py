@@ -5,6 +5,8 @@ from phonepe.sdk.pg.env import Env
 import base64
 import pymongo
 import os
+import requests
+import json
 
 # import flask
 from flask import Flask, request, jsonify
@@ -80,6 +82,18 @@ def callback():
         decoded_response = base64.b64decode(response)
         print("decoded_response: ",decoded_response)
         # insert the response to the database
+        responseData = json.loads(decoded_response.decode('utf-8'))
+        print("responseData response: ", responseData)
+        print("responseData data: ", responseData['data'])
+        print("responseData merchantTransactionId: ", responseData['data']['merchantTransactionId'])
+
+        responseData['bookingId'] = responseData['data']['merchantTransactionId']
+
+      
+        # post the response data to http://localhost:8080/webhook/v1/payment
+        webhook = requests.post('https://utrbackend.susanoox.in/webhook/v1/payment', json=responseData)
+        print("webhook response: ", webhook)
+
         collection.insert_one({"response": decoded_response.decode('utf-8')})
         return jsonify({"message": "The response is valid"})
     else:
@@ -112,4 +126,4 @@ def get_all_payments():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
