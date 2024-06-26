@@ -38,12 +38,16 @@ def paynow():
     else:
         amount = int(amount) # amount should be in paise
 
+    tx_id = request.args.get('id')
+    if tx_id is None:
+        tx_id = str(uuid.uuid4())[:-2]
+
 
     # base_url = os.getenv("BASE_URL")
 
-    unique_transcation_id = str(uuid.uuid4())[:-2]
-    ui_redirect_url = "https://utr-pay.susanoox.in/redirect"
-    s2s_callback_url = "https://utr-pay.susanoox.in/callback"
+    unique_transcation_id = tx_id
+    ui_redirect_url = "https://utrpay.susanoox.in/redirect"
+    s2s_callback_url = "https://utrpay.susanoox.in/callback"
     id_assigned_to_user_by_merchant = "utr_id_1234"  
     pay_page_request = PgPayRequest.pay_page_pay_request_builder(merchant_transaction_id=unique_transcation_id,  
                                                                  amount=amount,  
